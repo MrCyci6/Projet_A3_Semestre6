@@ -1,0 +1,1 @@
+data <- fread("./data/IRVE_clean.csv")
