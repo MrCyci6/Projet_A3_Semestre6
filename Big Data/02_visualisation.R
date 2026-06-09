@@ -7,7 +7,7 @@ head(data$date_mise_en_service)
 
 #tri des données dont on a besoin
 
-#mise en format et bornes temporelles
+#mise en format et bornes temporelles (vérifié par ia pour les tirets au lieu de /)
 date_debut <- as.POSIXct("01-01-2021 00:00", format = "%d-%m-%Y %H:%M",)
 date_fin <- as.POSIXct("01-01-2027 00:00", format = "%d-%m-%Y %H:%M")
 data$date_mise_en_service <- as.POSIXct(data$date_mise_en_service, 
@@ -23,6 +23,7 @@ data_analyse$annee_mois <- format(data_analyse$date_mise_en_service, "%Y-%m")
 evolution_stations <- table(data_analyse$annee_mois)
 #mise en place d'une data frame pour la visualisation graphique
 evolution_tot <- as.data.frame(evolution_stations)
+#(solution par ia)
 evolution_tot$Date <- as.Date(paste0(evolution_tot$Var1, "-01"))
 #visualisation graphique
 plot(evolution_tot$Date,
@@ -37,20 +38,22 @@ plot(evolution_tot$Date,
 #On rentre toutes les années
 annees_exactes <- as.Date(c("2021-01-01", "2022-01-01", "2023-01-01", 
                             "2024-01-01", "2025-01-01", "2026-01-01", "2027-01-01"))
-#On force l'axe des X à mettre toutes les années
+#On force l'axe des X à mettre toutes les années (solution par ia)
 axis(1, 
      at = annees_exactes, 
      labels = c("2021", "2022", "2023", "2024", "2025", "2026", "2027"), 
      las = 1)
-     
+
 #tri des données étape 2
 
-#mise en format et bornes
+#mise en format, découpage des données en catégories
 data_analyse$categorie_puissance <- cut(data_analyse$puissance_nominale,
                                     breaks = c(0, 3.7, 7.4, 11, 22, 43, 50, 150, Inf),
                                     labels = c("3.7kW", "7.4kW", "11kW", "22kW", "43kW",
-                                     "50kW", "Fast(50-150)", "Ultra(>150)"))
+                                     "50kW", "50 à \n 150kW", ">150kW"))
 repartition_puissance <- table(data_analyse$categorie_puissance)
+
+#visualisation graphique
 barplot(repartition_puissance,
     horiz = TRUE,
     las = 1,
