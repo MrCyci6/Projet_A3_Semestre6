@@ -5,7 +5,7 @@ library(stringr)
 data <- fread("./data/IRVE_clean.csv")
 head(data$date_mise_en_service)
 
-#tri des données dont on a besoin
+#tri des données dont on a besoin partie 1 
 
 #mise en format et bornes temporelles (vérifié par ia pour les tirets au lieu de /)
 date_debut <- as.POSIXct("01-01-2021 00:00", format = "%d-%m-%Y %H:%M",)
@@ -44,7 +44,8 @@ axis(1,
      labels = c("2021", "2022", "2023", "2024", "2025", "2026", "2027"), 
      las = 1)
 
-#tri des données étape 2
+#tri des données étape 2 histogrammes
+#puissance nominale
 
 #mise en format, découpage des données en catégories
 data_analyse$categorie_puissance <- cut(data_analyse$puissance_nominale,
@@ -61,3 +62,26 @@ barplot(repartition_puissance,
     xlab = "Nombre de stations",
     xlim =c(0,30000),
     ylab = "Puissance")
+
+#type de prise
+
+#on récupère la liste de prises via le fichier csv
+prises_charge <- c("prise_type_ef","prise_type_2",
+                    "prise_type_combo_ccs","prise_type_chademo",
+                    "prise_type_autre")
+
+#on additionne les stations pour chaque type de prise 
+comptage_prise <- colSums(data_analyse[,..prises_charge]=="true" |
+                         data_analyse[,..prises_charge]==TRUE,
+                         )
+
+names(comptage_prise) <- c("Prise EF", "Type 2", "Combo CCS", "CHAdeMO", "Autre")
+par(mar = c(5, 7, 4, 2))
+
+barplot(comptage_prise,
+    horiz = TRUE,
+    las = 1,
+    main ="Répartition des prises installées",
+    xlab = "Nombre de station concernées",
+    xlim =c(0,50000))
+
