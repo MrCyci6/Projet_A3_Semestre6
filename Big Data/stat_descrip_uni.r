@@ -1,8 +1,5 @@
 library(data.table)
 
-# Forcer R à utiliser le bon dossier
-setwd("C:/Users/lenovo/Desktop/Fil-rouge")
-
 # Importation avec fread
 df <- fread("IRVE_clean.csv")
 
