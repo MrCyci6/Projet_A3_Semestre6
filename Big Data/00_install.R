@@ -4,3 +4,4 @@ install.packages(c(
   "corrplot", "GGally",                # corrélations
   "caret", "randomForest"              # modèles / régression
 ))
+install.packages("httr")

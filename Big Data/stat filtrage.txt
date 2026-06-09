@@ -1,0 +1,24 @@
+01_nettoyage.R (filtrage des lignes)
+
+  1. Dédoublonnage — suppression des doublons sur id_pdc_itinerance (garde la ligne la plus récente via date_maj)
+  2. Filtre France métropolitaine — bounding box (lon -5.2/9.7, lat 41.3/51.1) + exclusion DOM-TOM par code INSEE (97x/98x)
+  3. Validation coordonnées — pour les lignes consolidated_is_lon_lat_correct == FALSE ou NA : appel API reverse-geocoding adresse.data.gouv.fr, on garde si
+   le CP ou la commune retourné correspond au déclaré, sinon suppression
+  4. Suppression colonnes méta — consolidated_is_lon_lat_correct, consolidated_is_code_insee_verified, consolidated_is_code_insee_modified
+
+  Export → IRVE_clean.csv
+
+  ---
+  02_formatage.R (mise en forme)
+
+  1. Encodage — correction des accents corrompus (è, é mal encodés)
+  2. Catégorielles — normalisation de condition_acces, accessibilite_pmr, implantation_station, raccordement en valeurs canoniques
+  3. Booléens — 12 colonnes (gratuit, paiement_cb, prise_type_2, etc.) converties de true/false/oui/non/0/1 → logique R, NA → FALSE
+  4. Adresse — nettoyage crochets/espaces + complétion CP et commune manquants depuis le texte de l'adresse
+  5. Téléphone — format international +33, vides → NA
+  6. Horaires — normalisation des jours (EN/FR → Lu-Di) et plages, gestion 24/7, plages orphelines
+  7. Aberrations — puissance > 1000 corrigée W→kW, hors ]0, 400] → NA ; dates hors [2010, aujourd'hui] → NA
+  8. Suppression colonnes — métadonnées datagouv, ids locaux, coordonneesXY
+  9. Feature engineering — charge_rapide (≥50 kW), ouvert_24_7, nb_types_prise
+
+  Export → IRVE_formatted.csv
