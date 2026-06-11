@@ -2,7 +2,7 @@ library(data.table)
 library(stringr)
 
 #récupération de la base de donnée
-data <- fread("./data/IRVE_clean.csv")
+data <- fread("C:/Users/Margaux/Documents/GitHub/Projet_A3_Semestre6/Big Data/data/IRVE_clean.csv")
 head(data$date_mise_en_service)
 
 #tri des données dont on a besoin partie 1 
@@ -27,8 +27,9 @@ data_analyse$trimestre <- paste0(format(data_analyse$date_mise_en_service, "%Y")
 evolution_trimestre <- table(data_analyse$trimestre)
 evolution_tot <- as.data.frame(evolution_trimestre)
 
-
-    #visualisation graphique
+#Endroit où télécharger l'image, avec sa taille, largeur
+png("C:/Users/Margaux/Desktop/evolution_stations_trimestre.png", width = 2400, height = 1800, res = 300)    #visualisation graphique
+#Représentation visuelle
 positions <- barplot(evolution_tot$Freq,
     space = 0,
     main="Evolution du nombre de stations mises en service par année",
@@ -37,8 +38,8 @@ positions <- barplot(evolution_tot$Freq,
     ylim = c(0,5000),
     las =1)
 
+#Force les axes/labels à se mettre correctement au milieu de barres
 un_sur_deux <- seq(1, nrow(evolution_tot), by = 2)
-
 positions_centrees <- un_sur_deux - 0.5
 
 axis(1, 
@@ -47,6 +48,9 @@ axis(1,
     las = 2,
     adj = 1,
     cex.axis = 0.8)
+    
+#on ferme la fenêtre
+dev.off()
 
 #tri des données étape 2 histogrammes
 #puissance nominale
@@ -57,7 +61,7 @@ data_analyse$categorie_puissance <- cut(data_analyse$puissance_nominale,
                                     labels = c("3.7kW", "7.4kW", "11kW", "22kW", "43kW",
                                      "50kW", "50 à \n 150kW", ">150kW"))
 repartition_puissance <- table(data_analyse$categorie_puissance)
-#marge pour la visualisation
+png("C:/Users/Margaux/Desktop/repartition_puissances.png", width = 2400, height = 1800, res = 300)#marge pour la visualisation
 par(mar = c(6, 4.1, 4.1, 2.1))
 #visualisation graphique
 barplot(repartition_puissance,
@@ -67,7 +71,7 @@ barplot(repartition_puissance,
     xlab = "Nombre de stations",
     xlim =c(0,25000),
     ylab = "Puissance")
-
+dev.off()
 #type de prise
 
 #on récupère la liste de prises via le fichier csv
@@ -82,13 +86,15 @@ comptage_prise <- colSums(data_analyse[,..prises_charge]=="true" |
 
 #Renomme les variables + marge sur la gauche pour le visuel (IA)
 names(comptage_prise) <- c("Prise EF", "Type 2", "Combo CCS", "CHAdeMO", "Autre")
-par(mar = c(5, 7, 4, 2))
+png("C:/Users/Margaux/Desktop/repartition_types_prises.png", width = 3500, height = 2800, res = 300)
+par(mar = c(6, 9, 4.1, 2.1))
 
 #visualisation graphique des prises
-barplot(comptage_prise,
+test <- barplot(comptage_prise,
     horiz = TRUE,
     las = 1,
     main ="Répartition des prises installées",
     xlab = "Nombre de station concernées",
     xlim =c(0,40000))
 
+dev.off()
