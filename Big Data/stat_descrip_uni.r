@@ -1,3 +1,5 @@
+#code corriger et assisté par Gemini
+
 library(data.table)
 
 # Importation avec fread

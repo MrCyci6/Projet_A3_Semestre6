@@ -1,3 +1,5 @@
+## code corriger et assisté par Gemini
+
 library(data.table)
 library(dplyr)
 library(ggplot2)
