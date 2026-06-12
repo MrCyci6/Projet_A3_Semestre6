@@ -21,12 +21,13 @@ data_analyse$categorie_puissance <- cut(data_analyse$puissance_nominale,
 
 categories <- c("3.7kW", "7.4kW", "11kW", "22kW", "43kW", "50kW", "50 à 150kW", ">150kW")
 
-#On range les catégories dans l'ordre croissant
+#On range les catégories dans l'ordre de categories (aide de l'IA)
 categories_ordonnees <- factor(categories, levels = categories)
 
 # Création d'une palette pour les catégories de puissance 
 palette_globale <- colorFactor( palette = c("#33e923", "#21a008", "#0d7909", "#086d6d", "#d12497", "#a51a70", "#4f0b55", "#1e062c"),
                                 domain = categories_ordonnees)
+#On récupère 
 lignes_valides <- !is.na(data_analyse$consolidated_latitude) & !is.na(data_analyse$consolidated_longitude)
 
 #On relie les données entre elles

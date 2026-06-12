@@ -18,12 +18,12 @@ data$date_mise_en_service <- as.POSIXct(data$date_mise_en_service,
                         data$date_mise_en_service >= date_debut &
                         data$date_mise_en_service <= date_fin,]
 
-    #création d'une nouvelle colonne, puis d'une table avec toutes les données
+    #création d'une nouvelle colonne qui concatène des chaînes de caractère sans séparateur
 data_analyse$trimestre <- paste0(format(data_analyse$date_mise_en_service, "%Y"),
                                     "-",
                                     quarters(data_analyse$date_mise_en_service))
 
-    # 3. Création de la table par trimestre
+    #Création de la table par trimestre
 evolution_trimestre <- table(data_analyse$trimestre)
 evolution_tot <- as.data.frame(evolution_trimestre)
 
@@ -38,7 +38,7 @@ positions <- barplot(evolution_tot$Freq,
     ylim = c(0,5000),
     las =1)
 
-#Force les axes/labels à se mettre correctement au milieu de barres
+#Force les axes/labels à se mettre correctement au milieu de barres (aide de l'IA)
 un_sur_deux <- seq(1, nrow(evolution_tot), by = 2)
 positions_centrees <- un_sur_deux - 0.5
 
