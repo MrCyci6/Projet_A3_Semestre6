@@ -32,9 +32,9 @@ png("C:/Users/Margaux/Desktop/evolution_stations_trimestre.png", width = 2400, h
 #Représentation visuelle
 positions <- barplot(evolution_tot$Freq,
     space = 0,
-    main="Evolution du nombre de stations mises en service par année",
+    main="Evolution du nombre de point de charge mis en service par année",
     xlab = "Temps (année)",
-    ylab= "Nombre de station",
+    ylab= "Nombre de point de charge",
     ylim = c(0,5000),
     las =1)
 
@@ -68,7 +68,7 @@ barplot(repartition_puissance,
     horiz = TRUE,
     las = 1,
     main ="Répartition des puissances en kw",
-    xlab = "Nombre de stations",
+    xlab = "Nombre de point de recharge",
     xlim =c(0,25000),
     ylab = "Puissance")
 dev.off()
@@ -94,7 +94,7 @@ test <- barplot(comptage_prise,
     horiz = TRUE,
     las = 1,
     main ="Répartition des prises installées",
-    xlab = "Nombre de station concernées",
+    xlab = "Nombre de point de charge concernés",
     xlim =c(0,40000))
 
 dev.off()
