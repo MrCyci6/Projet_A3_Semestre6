@@ -22,7 +22,7 @@ scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 print(X)
 
-#Détermination du nombre de clusters
+#Détermination du nombre de clusters avec les différentes métriques
 k_range = range(3, 11)
 silhouette_scores = []
 ch_scores = []
@@ -72,8 +72,8 @@ plt.tight_layout()
 plt.savefig("metriques_clustering.png", dpi=150)
 plt.show()
 
-#Modèle final
-k = 5  # à ajuster après avoir vu les graphiques
+#Modèle final + calcul coordonnées centroïdes
+k = 5  
 
 kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
 y_pred = kmeans.fit_predict(X_scaled)
@@ -104,15 +104,4 @@ fig.update_traces(marker=dict(size=5))
 fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
 fig.show()
 
-#Script de prédiction + test
-kmeans = joblib.load("kmeans_irve.pkl")
-scaler = joblib.load("scaler_irve.pkl")
 
-def predire_cluster(latitude, longitude) -> int:
-    X_new = np.array([[latitude, longitude]])
-    X_new_scaled = scaler.transform(X_new)
-    return int(kmeans.predict(X_new_scaled)[0])
-
-# Test
-cluster = predire_cluster(48.8566, 2.3522)
-print(f"Cluster prédit : {cluster}")

@@ -113,14 +113,24 @@ cluster_principal = MarkerCluster(options={
     "spiderfyDistanceMultiplier": 2
 }).add_to(carte)
 
-#Extraction des tableaux de données
+#Extraction des tableaux de données qui nous intéressent
 lats = data_geo["consolidated_latitude"].values
 lons = data_geo["consolidated_longitude"].values
 puissances = data_geo["categorie_puissance"].astype(str).values
+gratuites = data_geo["gratuit"].astype(str).values  
+pmrs = data_geo["accessibilite_pmr"].astype(str).values
+op = data_geo["nom_operateur"].astype(str).values
 
-#Génération des marqueurs colorés
-for lat, lon, p_label in zip(lats, lons, puissances):
+
+#Génération des marqueurs colorés et texte de popup
+for lat, lon, p_label, gratuit, pmr, operateur in zip(lats, lons, puissances, gratuites, pmrs, op):
     couleur = palette.get(p_label, "#888888")
+    texte_popup = (
+        f"<b>Opérateur :</b> {operateur}<br>"
+        f"<b>Puissance :</b> {p_label}<br>"
+        f"<b>Gratuit :</b> {gratuit}<br>"
+        f"<b>Accès PMR :</b> {pmr}"
+    )
     
     folium.CircleMarker(
         location=[lat, lon],
@@ -129,7 +139,7 @@ for lat, lon, p_label in zip(lats, lons, puissances):
         fill=True,
         fill_color=couleur,
         fill_opacity=0.8,
-        popup=f"Puissance: {p_label}"
+        popup=folium.Popup(texte_popup, min_width=200, max_width=300)
     ).add_to(cluster_principal)
 
 legende = branca.colormap.StepColormap(
