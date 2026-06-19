@@ -21,8 +21,12 @@ data = pd.read_csv(file_path, low_memory=False)
 print(f"Données chargées : {data.shape[0]} lignes.")
 
 # Récupération des données que l'on souhaite + normalisation
-data_geo = data.dropna(subset=["consolidated_latitude", "consolidated_longitude"]).copy()
-features = ["consolidated_latitude", "consolidated_longitude"]
+features = ["consolidated_latitude", "consolidated_longitude", "puissance_nominale"]
+
+data_geo = data.dropna(subset=[
+    "consolidated_latitude", "consolidated_longitude", "puissance_nominale"
+]).copy()
+
 X = data_geo[features].values
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
@@ -76,7 +80,7 @@ plt.tight_layout()
 output_metriques = os.path.join(output_dir, "metriques_clustering.png")
 plt.savefig(output_metriques, dpi=150)
 plt.close()
-print(f"✅ 1/2 - Graphique des métriques enregistré ici : {output_metriques}")
+print(f" 1/2 - Graphique des métriques enregistré ici : {output_metriques}")
 
 # Modèle final
 k = 5  
@@ -107,4 +111,4 @@ fig_map.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
 # Sauvegarde forcée de la carte en PNG via Kaleido
 output_carte = os.path.join(output_dir, "carte_clustering.png")
 fig_map.write_image(output_carte, engine="kaleido")
-print(f"✅ 2/2 - Carte PNG enregistrée ici : {output_carte}")
+print(f" 2/2 - Carte PNG enregistrée ici : {output_carte}")
