@@ -21,10 +21,10 @@ data = pd.read_csv(file_path, low_memory=False)
 print(f"Données chargées : {data.shape[0]} lignes.")
 
 # Récupération des données que l'on souhaite + normalisation
-features = ["consolidated_latitude", "consolidated_longitude", "puissance_nominale"]
+features = ["consolidated_latitude", "consolidated_longitude"]
 
 data_geo = data.dropna(subset=[
-    "consolidated_latitude", "consolidated_longitude", "puissance_nominale"
+    "consolidated_latitude", "consolidated_longitude", 
 ]).copy()
 
 X = data_geo[features].values

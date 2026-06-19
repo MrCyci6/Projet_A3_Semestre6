@@ -1,7 +1,7 @@
 # 🗺️ Clustering des Bornes de Recharge IRVE (Client 2)
 **Projet A3 - Semestre 6**
 
-Ce projet utilise l'Intelligence Artificielle (Machine Learning) pour regrouper automatiquement les bornes de recharge électrique (IRVE) en clusters homogènes, selon leur **localisation géographique** et leur **puissance nominale**, afin d'identifier des profils d'infrastructure sur le territoire français.
+Ce projet utilise l'Intelligence Artificielle (Machine Learning) pour regrouper automatiquement les bornes de recharge électrique (IRVE) en clusters homogènes, selon leur **localisation géographique**, afin d'identifier des profils d'infrastructure sur le territoire français.
 
 ---
 
