@@ -1,4 +1,4 @@
-# ⚡ Prédiction de la Puissance des Bornes IRVE (Client 4)
+# Prédiction de la Puissance des Bornes IRVE (Client 4)
 
 
 
@@ -6,15 +6,7 @@
 
 
 
-Ce projet utilise l'Intelligence Artificielle (Machine Learning) pour prédire la catégorie de puissance nominale (Lente, Moyenne, Rapide, Ultra-rapide) d'une borne de recharge pour véhicules électriques (IRVE) en fonction de ses caractéristiques techniques et géographiques.
-
-
-
----
-
-
-
-## 🛠️ Prérequis et Installation
+## Prérequis et Installation
 
 
 
@@ -38,7 +30,7 @@ Pour faire fonctionner ce projet sur votre machine, vous devez avoir **Python 3.
 
 
 
-## 📂 Architecture du Projet
+## Architecture du Projet
 
 
 
@@ -66,7 +58,7 @@ Le projet est découpé en plusieurs scripts numérotés pour respecter l'ordre 
 
 
 
-## 🚀 Comment lancer le projet ?
+## Comment lancer le projet ?
 
 
 
@@ -96,7 +88,7 @@ Pour lancer l'application interactive et tester le modèle via un navigateur web
 
 
 
-`streamlit run 06_app_streamlit.py`
+`streamlit run 06_app.py`
 
 
 
@@ -118,7 +110,7 @@ Pour tester le modèle de manière programmatique sans interface graphique, exé
 
 
 
-## 🧠 Comment ça fonctionne ? (Sous le capot)
+## Comment ça fonctionne ? (Sous le capot)
 
 
 
