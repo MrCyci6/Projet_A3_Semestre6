@@ -3,14 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Visualisation</title>
+    <title>Prediction Cluster</title>
     <link rel="stylesheet" href="css/style.css">
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="script/visualisation.js" defer></script>
-
+    <script src="script/predictionCluster.js" defer></script>
 </head>
 
 <body>
@@ -27,40 +26,7 @@
         </ul>
     </nav>
     <section>
-        <p>visualisation des points de charge et des station</p>
-    </section>
-    <section>
-        <div>
-            <h3>Données des stations</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Région</th>
-                        <th>Stations</th>
-                        <th>Points de charge</th>
-                        <th>Type de charge</th>
-                        <th>Puissance de charge</th>
-                        <th>accecibilite</th>
-                        <th>Gratuit</th>
-                        <th>Payant</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Les lignes du tableau seront générées dynamiquement ici depuis la base de données -->
-                </tbody>
-            </table>
-            <div>
-                <button>
-                    Prédire les clusters
-                </button>
-                <button>
-                    Prédire l'implantation
-                </button>
-                <button>
-                    Prédire la puissance
-                </button>
-            </div>
-        </div>
+        <p>prediction de cluster</p>
         <div>
             <div class="visu-right">
                 <div class="carte-header">

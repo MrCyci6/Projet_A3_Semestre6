@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Statistique</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script/statistique.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>IRVE</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="visualisation.html">visualisation</a></li>
+            <li><a href="statistique.html">Statistique</a></li>
+            <li><a href="https://isen-ouest.fr/" target="_blank"><img src="images/logo-isen.png" alt="logo" width="50px"
+                        height="30px"></a></li>
+        </ul>
+    </nav>
+    <section>
+        <p>stistique par departement</p>
+    </section>
+
+    <section>
+        <div>
+            <h3>Données des stations</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Région</th>
+                        <th>Stations</th>
+                        <th>Points de charge</th>
+                        <th>Type de charge</th>
+                        <th>Puissance de charge</th>
+                        <th>accecibilite</th>
+                        <th>Gratuit</th>
+                        <th>Payant</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Les lignes du tableau seront générées dynamiquement ici depuis la base de données -->
+                </tbody>
+            </table>
+
+        </div>
+        <div>
+            <div class="visu-right">
+                <div class="carte-header">
+                    <h2>Carte des stations</h2>
+                </div>
+                <div id="map"></div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer>
+        <p>Copyright &copy; 2026 IRVE-ISEN</p>
+        <div class="footer-links">
+            <a href="#">Données ouvertes data.gouv.fr</a>
+            <a href="#">Mentions légales</a>
+        </div>
+    </footer>
+</body>
+
+</html>
