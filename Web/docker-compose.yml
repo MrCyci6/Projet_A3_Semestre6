@@ -1,0 +1,29 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: projet-a3-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: projet_a3
+      MYSQL_DATABASE: projet_a3
+      MYSQL_USER: projet_a3
+      MYSQL_PASSWORD: projet_a3
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init-scripts:/docker-entrypoint-initdb.d
+
+  php:
+    build: ./volume_web
+    container_name: projet-a3-web
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./volume_web:/var/www/html
+    depends_on:
+      - db
+
+volumes:
+  db_data:
