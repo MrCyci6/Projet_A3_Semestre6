@@ -1,50 +1,51 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/style.css">    
+    <link rel="stylesheet" href="css/index.css">    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Krona+One&family=Marko+One&display=swap" rel="stylesheet">
-</head>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inika:wght@400;700&display=swap" rel="stylesheet">
+</head>
 <body>
     <header class="bandeau">
         <div class="texte-bandeau">
             <h1>Borne to be plugged</h1>
-            <h2> Accueil </h2>
+            <h2>Accueil</h2>
         </div>
     </header>
-    <nav>
-        <ul>
-            <li><a id="bouton" href="index.html">Accueil</a></li>
-            <li><a id="bouton" href="visualisation.html">visualisation</a></li>
-            <li><a id="bouton" href="statistique.html">Statistiques</a></li>
-            <li><a id="bouton" href="https://isen-ouest.fr/" target="_blank"><img src="images/logo-isen.png" alt="logo" width="50px"
-                        height="30px"></a></li>
-        </ul>
-    </nav>
-    <section>
-        <article>
-            <h2>Bienvenue sur le site des IRVE en France</h2>
-            <p>L'IRVE est un projet de fin d'année qui vise à analyser et visualiser les données des bornes de recharge
-                électrique en France.</p>
-        </article>
-    </section>
-    <section>
-        <img src="images/Image.jpg" alt="voiture">
-        <li><a href="visualisation.html">Visualisation</a></li>
-        <li><a href="statistique.html">Statistiques</a></li>
-    </section>
-    <footer>
-        <p>Copyright &copy; 2026 IRVE-ISEN</p>
-        <div class="footer-links">
-            <a href="#">Données ouvertes data.gouv.fr</a>
-            <a href="#">Mentions légales</a>
-        </div>
-    </footer>
-    </footer>
-</body>
 
+   <section class="description">
+        <h3>Description du projet :</h3>
+        <p>L'IRVE est un projet de fin d'année qui vise à analyser et visualiser 
+            les données des bornes de recharge électrique en France.</p>
+    </section>
+
+    <div class="conteneur-boutons">
+        <a href="visualisation.html" class="bouton-visualisation">Visualisation</a>
+        <a href="statistique.html" class="bouton-visualisation">Statistiques</a>
+    </div>
+
+    <div id="voiture">
+        <img src="images/image_voiture.png" alt="voiture électrique" >
+     </div>
+    
+
+    <footer>
+    <div class="footer-gauche">
+        <p>Borne to be plugged</p>
+        <a href="#">Données ouvertes data.gouv.fr</a>
+        <a href="#">Mentions légales</a>
+        <img src="images/logo-isen.png" alt="logo ISEN" height="60px">
+    </div>
+    <div class="footer-droite">
+        <img src="images/logo_final.png" alt="logo voiture" height="80px">
+        <p>Copyright &copy; 2026 IRVE-ISEN</p>
+    </div>
+</footer>
+</body>
 </html>
