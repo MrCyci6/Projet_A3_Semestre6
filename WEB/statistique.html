@@ -1,83 +1,74 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Statistique</title>
-    <link rel="stylesheet" href="css/statistiques.css">
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Statistiques</title>
+    <link href="https://fonts.googleapis.com/css2?family=Krona+One&family=Inika:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="script/statistique.js" defer></script>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Krona+One&family=Marko+One&display=swap" rel="stylesheet">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inika:wght@400;700&display=swap" rel="stylesheet">
 </head>
+<body class="d-flex flex-column min-vh-100" style="background-color:#F4F7F6;">
 
-<body>
-    <header>
-        <h1>BORNE TO BE PLUGGED</h1>
-        <h2>Statistiques</h2>
+    <!-- Bandeau -->
+    <header class="position-relative w-100 p-4 d-flex justify-content-between align-items-center"
+            style="background-color: #00B574; background-size:cover; background-position:center; min-height:320px;">
+        <div>
+            <h1 style="font-family:'Krona One',sans-serif; font-size:64px; font-weight:normal; margin:0;">Borne to be plugged</h1>
+            <h2 style="font-family:'Krona One',sans-serif; font-size:64px; font-weight:normal;">Statistiques</h2>
+        </div>
+        <img src="images/prediction.png" alt="icône statistiques" style="height:150px;">
     </header>
-    <nav>
-        <ul>
-            <li><a href="index.html">Accueil</a></li>
-            <li><a href="visualisation.html">visualisation</a></li>
-            <li><a href="statistique.html">Statistique</a></li>
-            <li><a href="https://isen-ouest.fr/" target="_blank"><img src="images/logo-isen.png" alt="logo" width="50px"
-                        height="30px"></a></li>
-        </ul>
+
+    <!-- Nav boutons -->
+    <nav class="d-flex gap-3 m-3 justify-content-end">
+        <a href="index.html" class="btn rounded-pill px-4 py-3 fw-bold text-dark"
+           style="background-color:#33C697; font-family:'Krona One',sans-serif; font-size:2rem; box-shadow:0 4px 8px rgba(0,0,0,0.3);">
+            Accueil
+        </a>
+        <a href="visualisation.html" class="btn rounded-pill px-4 py-3 fw-bold text-dark"
+           style="background-color:#33C697; font-family:'Krona One',sans-serif; font-size:2rem; box-shadow:0 4px 8px rgba(0,0,0,0.3);">
+            Visualisation
+        </a>
     </nav>
-    <section>
-        <p>stistique par departement</p>
+
+    <!-- Description + select -->
+    <section class="mx-3 mb-3">
+        <h3 style="font-family:'Inika',serif; font-size:25px; font-weight:bold;">Affichage de statistiques sur les stations :</h3>
+        <select class="btn rounded-pill px-4 py-2 fw-bold text-dark"
+                style="background-color:#33C697; font-family:'Inika',serif; font-size:1.2rem; box-shadow:0 4px 8px rgba(0,0,0,0.3);">
+            <option>Choisissez le département</option>
+        </select>
     </section>
 
-    <section>
-        <div>
-            <h3>Données des stations</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Région</th>
-                        <th>Stations</th>
-                        <th>Points de charge</th>
-                        <th>Type de charge</th>
-                        <th>Puissance de charge</th>
-                        <th>accecibilite</th>
-                        <th>Gratuit</th>
-                        <th>Payant</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Les lignes du tableau seront générées dynamiquement ici depuis la base de données -->
-                </tbody>
-            </table>
-
-        </div>
-        <div>
-            <div class="visu-right">
-                <div class="carte-header">
-                    <h2>Carte des stations</h2>
-                </div>
-                <div id="map"></div>
-            </div>
-        </div>
+    <!-- Calcul statistique -->
+    <section class="border rounded-3 p-3 mx-3 mb-3" style="border:5px solid #828282 !important; min-height:150px;">
+        <h3 style="font-family:'Inika',serif; font-size:25px; font-weight:bold;">Calcul statistique :</h3>
     </section>
 
+    <!-- Séparateur -->
+    <div class="mx-3 my-3" style="height:20px; background-color:#098659; border-radius:10px;"></div>
 
-    <footer>
-        <p>Copyright &copy; 2026 IRVE-ISEN</p>
-        <div class="footer-links">
-            <a href="#">Données ouvertes data.gouv.fr</a>
-            <a href="#">Mentions légales</a>
+    <!-- Représentation graphique -->
+    <section class="border rounded-3 p-3 mx-3 mb-3" style="border:5px solid #828282 !important; min-height:200px;">
+        <h3 style="font-family:'Inika',serif; font-size:25px; font-weight:bold;">Représentation graphique :</h3>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-auto d-flex justify-content-between px-5 py-4"
+            style="background-color:#d0d0d0; font-family:'Inika',serif; font-size:25px; border-top:3px solid #1a1a1a;">
+        <div class="d-flex flex-column gap-2">
+            <p class="m-0 fw-bold">Borne to be plugged</p>
+            <a href="#" class="m-0 text-dark">Données ouvertes data.gouv.fr</a>
+            <a href="#" class="m-0 text-dark">Mentions légales</a>
+            <img src="images/logo-isen.png" alt="Logo ISEN" style="height:60px; width:auto;">
+        </div>
+        <div class="d-flex flex-column align-items-center justify-content-center gap-2">
+            <img src="images/logo_final.png" alt="Logo" style="height:200px; width:auto;">
+            <p class="m-0">Copyright &copy; 2026 IRVE-ISEN</p>
         </div>
     </footer>
-</body>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
