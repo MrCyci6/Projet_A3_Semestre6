@@ -18,6 +18,7 @@
         header('Pragma: no-cache');
 
         echo $data;
+        exit();
     }
 
     function sendError() {

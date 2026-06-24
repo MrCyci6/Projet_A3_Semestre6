@@ -22,6 +22,7 @@ services:
       - "8080:80"
     volumes:
       - ./volume_web:/var/www/html
+      - ./scripts:/var/www/scripts
     depends_on:
       - db
 

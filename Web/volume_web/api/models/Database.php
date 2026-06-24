@@ -8,12 +8,16 @@
             if(Database::$db != null)
                 return Database::$db;
             
-            $dsn = "mysql:dbname=".DB_NAME.";host=".DB_SERVER.";port=".DB_PORT;
+            $dsn = "mysql:dbname=".DB_NAME.";host=".DB_SERVER.";port=".DB_PORT.";charset=utf8mb4";
             $username = DB_USER;
             $password = DB_PASSWORD;
+            $options = [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4" // <-- Ligne magique
+            ];
+
             try {
-                $conn = new PDO($dsn, $username, $password);
-                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $conn = new PDO($dsn, $username, $password, $options);
             } catch (PDOException $e) {
                 error_log("Error while connection to database: ".$e->getMessage());
                 return false;
