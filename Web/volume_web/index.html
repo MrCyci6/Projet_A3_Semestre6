@@ -1,29 +1,34 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Borne to be plugged</title>
-    <link href="https://fonts.googleapis.com/css2?family=Krona+One&family=Inika:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Krona+One&family=Inika:wght@400;700&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body class="d-flex flex-column min-vh-100" style="background-color:#F4F7F6;">
 
     <!-- Bandeau -->
     <div class="position-relative w-100 p-4"
-         style="background-image:url('images/Bandeau_titre.png'); background-size:cover; background-position:center; min-height:320px;">
-        <h1 style="font-family:'Krona One',sans-serif; font-size:64px; font-weight:normal; margin:0;">Borne to be plugged</h1>
-        <h2 style="font-family:'Krona One',sans-serif; font-size:64px; font-weight:normal;">Accueil</h2>
+        style="background-color:#00B574; min-height:150px; overflow:hidden;">
+        <h1 style="font-family:'Krona One',sans-serif; font-size:64px; font-weight:normal; margin:0; position:relative; z-index:2;">Borne to be
+            plugged</h1>
+        <h2 style="font-family:'Krona One',sans-serif; font-size:64px; font-weight:normal; position:relative; z-index:2;">Accueil</h2>
+        <img src="images/Bandeau_titre.png" alt="Bandeau" style="position:absolute; right:0; top:0; height:100%; object-fit:contain; z-index:1;">
     </div>
 
     <!-- Boutons -->
     <div class="d-flex gap-3 m-3 justify-content-end">
         <a href="visualisation.html" class="btn rounded-pill px-4 py-3 fw-bold text-dark"
-           style="background-color:#33C697; font-family:'Krona One',sans-serif; font-size:2rem; box-shadow:0 4px 8px rgba(0,0,0,0.3);">
+            style="background-color:#33C697; font-family:'Krona One',sans-serif; font-size:2rem; box-shadow:0 4px 8px rgba(0,0,0,0.3);">
             Visualisation
         </a>
         <a href="statistique.html" class="btn rounded-pill px-4 py-3 fw-bold text-dark"
-           style="background-color:#33C697; font-family:'Krona One',sans-serif; font-size:2rem; box-shadow:0 4px 8px rgba(0,0,0,0.3);">
+            style="background-color:#33C697; font-family:'Krona One',sans-serif; font-size:2rem; box-shadow:0 4px 8px rgba(0,0,0,0.3);">
             Statistiques
         </a>
     </div>
@@ -50,7 +55,7 @@
 
     <!-- Footer -->
     <footer class="mt-auto d-flex justify-content-between px-5 py-4"
-            style="background-color:#d0d0d0; font-family:'Inika',serif; font-size:25px; border-top:3px solid #1a1a1a;">
+        style="background-color:#d0d0d0; font-family:'Inika',serif; font-size:25px; border-top:3px solid #1a1a1a;">
         <div class="d-flex flex-column gap-2">
             <p class="m-0 fw-bold">Borne to be plugged</p>
             <p class="m-0">Données ouvertes data.gouv.fr</p>
@@ -65,4 +70,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
