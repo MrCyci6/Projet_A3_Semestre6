@@ -21,7 +21,6 @@ let tableState = {
 let selectedStationId = null;
 let filterTimeout = null;
 
-// Fonction pour déclencher le rechargement avec debouncing
 function triggerTableReload() {
     clearTimeout(filterTimeout);
     filterTimeout = setTimeout(() => {
@@ -30,7 +29,6 @@ function triggerTableReload() {
     }, 300);
 }
 
-// Fonction pour charger les stations dans le tableau
 function loadTableData() {
     const params = new URLSearchParams();
     params.append("page", tableState.page);
@@ -63,7 +61,6 @@ function loadTableData() {
                 tbody.appendChild(tr);
             });
 
-            // Mettre à jour les boutons de pagination
             const prevBtn = document.getElementById("btn-page-prev");
             const nextBtn = document.getElementById("btn-page-next");
             const pageNumSpan = document.getElementById("current-page-num");
@@ -75,7 +72,6 @@ function loadTableData() {
     });
 }
 
-// Fonction pour charger la liste des départements
 function loadDepartements() {
     ajaxRequest('GET', "/api/index.php/departement", (result) => {
         if (result.success && result.data) {
@@ -92,12 +88,10 @@ function loadDepartements() {
     });
 }
 
-// Initialisation au chargement de la page
 document.addEventListener("DOMContentLoaded", () => {
     loadTableData();
     loadDepartements();
 
-    // Recherche textuelle
     const filterQuery = document.getElementById("filter-query");
     if (filterQuery) {
         filterQuery.addEventListener("input", () => {
@@ -106,7 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Filtre Département
     const filterDepartement = document.getElementById("filter-departement");
     if (filterDepartement) {
         filterDepartement.addEventListener("change", () => {
@@ -115,7 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Filtre 24/7
     const filterH24 = document.getElementById("filter-h24");
     if (filterH24) {
         filterH24.addEventListener("change", () => {
@@ -124,7 +116,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ID Enseigne
     const filterEnseigne = document.getElementById("filter-enseigne");
     if (filterEnseigne) {
         filterEnseigne.addEventListener("input", () => {
@@ -133,7 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ID Opérateur
     const filterOperateur = document.getElementById("filter-operateur");
     if (filterOperateur) {
         filterOperateur.addEventListener("input", () => {
@@ -142,7 +132,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Lignes par page
     const filterRows = document.getElementById("filter-rows");
     if (filterRows) {
         filterRows.addEventListener("change", () => {
@@ -151,7 +140,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Pagination : Précédent
     const btnPrev = document.getElementById("btn-page-prev");
     if (btnPrev) {
         btnPrev.addEventListener("click", () => {
@@ -162,7 +150,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Pagination : Suivant
     const btnNext = document.getElementById("btn-page-next");
     if (btnNext) {
         btnNext.addEventListener("click", () => {
@@ -171,14 +158,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Gérer le changement de station sélectionnée
     document.addEventListener("change", (event) => {
         if (event.target && event.target.name === "stationSelection") {
             selectedStationId = event.target.value;
         }
     });
 
-    // Bouton de calcul des statistiques
     const btnCalcStats = document.getElementById("btn-calc-stats");
     if (btnCalcStats) {
         btnCalcStats.addEventListener("click", () => {
@@ -200,7 +185,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (result.success && result.data) {
                     const data = result.data;
                     
-                    // 1. Calcul statistique (affichage des valeurs textuelles)
                     let htmlStats = `
                         <div class="row g-3">
                             <div class="col-md-6 col-lg-3">
@@ -232,77 +216,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="row g-3 mt-3">
-                            <div class="col-md-6">
-                                <div class="p-3 bg-light rounded border h-100">
-                                    <h4 class="h6 fw-bold text-secondary mb-3">Caracteristiques de la station</h4>
-                                    <ul class="list-group list-group-flush bg-transparent">
-                                        <li class="list-group-item bg-transparent d-flex justify-content-between px-0">
-                                            <span>Nombre de PDC rapides :</span>
-                                            <span class="fw-bold">${data.caracteristiques.rapides}</span>
-                                        </li>
-                                        <li class="list-group-item bg-transparent d-flex justify-content-between px-0">
-                                            <span>Nombre de PDC gratuits :</span>
-                                            <span class="fw-bold">${data.caracteristiques.gratuits}</span>
-                                        </li>
-                                        <li class="list-group-item bg-transparent d-flex justify-content-between px-0">
-                                            <span>Nombre de PDC reservables :</span>
-                                            <span class="fw-bold">${data.caracteristiques.reservables}</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="p-3 bg-light rounded border h-100">
-                                    <h4 class="h6 fw-bold text-secondary mb-3">Repartition des prises</h4>
-                                    ${data.repartition_prises.length === 0 ? '<div class="text-muted text-center py-3">Aucune prise enregistree</div>' : `
-                                        <ul class="list-group list-group-flush bg-transparent">
-                                            ${data.repartition_prises.map(prise => `
-                                                <li class="list-group-item bg-transparent d-flex justify-content-between px-0">
-                                                    <span>Prise ${prise.type_prise} :</span>
-                                                    <span class="fw-bold">${prise.nbr_prises}</span>
-                                                </li>
-                                            `).join('')}
-                                        </ul>
-                                    `}
-                                </div>
-                            </div>
-                        </div>
                     `;
                     
                     statsOutput.innerHTML = htmlStats;
 
-                    // 2. Representation graphique (Visualisation en barres de progression)
-                    if (graphOutput) {
-                        let htmlGraph = `<div class="p-3 bg-light rounded border">`;
-                        
-                        if (data.repartition_prises.length > 0) {
-                            htmlGraph += `<h4 class="h6 fw-bold text-secondary mb-4">Repartition des prises (Graphique)</h4>`;
-                            const maxPrises = Math.max(...data.repartition_prises.map(p => parseInt(p.nbr_prises)));
-                            
-                            data.repartition_prises.forEach(prise => {
-                                const count = parseInt(prise.nbr_prises);
-                                const percent = maxPrises > 0 ? (count * 100) / maxPrises : 0;
-                                htmlGraph += `
-                                    <div class="mb-3">
-                                        <div class="d-flex justify-content-between small fw-bold text-secondary mb-1">
-                                            <span>${prise.type_prise}</span>
-                                            <span>${count} prise(s)</span>
-                                        </div>
-                                        <div class="progress" style="height: 15px;">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: ${percent}%" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                `;
-                            });
-                        } else {
-                            htmlGraph += `<div class="text-muted text-center py-3">Aucune donnee graphique a representer</div>`;
-                        }
-                        
-                        htmlGraph += `</div>`;
-                        graphOutput.innerHTML = htmlGraph;
-                    }
                 } else {
                     statsOutput.innerHTML = `<div class="alert alert-danger">Impossible de recuperer les statistiques de cette station.</div>`;
                 }

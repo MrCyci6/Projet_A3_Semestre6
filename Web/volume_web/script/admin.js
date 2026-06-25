@@ -1,9 +1,27 @@
+// Fallback pour httpErrors s'il n'est pas défini globalement
+if (typeof httpErrors === 'undefined') {
+    window.httpErrors = function(status) {
+        console.error("Erreur HTTP : " + status);
+        const alertBox = document.getElementById("admin-alert");
+        if (alertBox) {
+            alertBox.classList.remove("d-none");
+            alertBox.classList.remove("alert-success");
+            alertBox.classList.add("alert-danger");
+            alertBox.innerText = "Une erreur de communication est survenue avec le serveur (code " + status + ").";
+        }
+        const btnSubmit = document.getElementById("btn-submit-pdc");
+        if (btnSubmit) {
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = "Créer le PDC";
+        }
+    };
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("form-add-pdc");
     const btnSubmit = document.getElementById("btn-submit-pdc");
     const alertBox = document.getElementById("admin-alert");
 
-    // Add initial row for prises and paiements
     addPriseRow();
     addPaiementRow();
 
@@ -15,7 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
         alertBox.classList.add("d-none");
         alertBox.classList.remove("alert-success", "alert-danger");
 
-        // Parse Prises
         const prises = [];
         document.querySelectorAll(".prise-row").forEach(row => {
             const idType = parseInt(row.querySelector(".sel-prise-type").value);
@@ -25,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Parse Paiements
         const paiements = [];
         document.querySelectorAll(".paiement-row").forEach(row => {
             const idType = parseInt(row.querySelector(".sel-paiement-type").value);
@@ -35,7 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Construct FormData
         const formData = new FormData();
         formData.append("id_pdc_itinerance", form.querySelector("[name='id_pdc_itinerance']").value);
         formData.append("id_station_itinerance", form.querySelector("[name='id_station_itinerance']").value);
@@ -60,15 +75,11 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append("prises", JSON.stringify(prises));
         formData.append("paiements", JSON.stringify(paiements));
 
-        // Submit via fetch (not using ajaxRequest since it usually doesn't handle FormData well unless designed for it, but let's use standard fetch)
-        fetch("/api/index.php/pdc", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
+        const urlEncodedData = new URLSearchParams(formData).toString();
+
+        ajaxRequest('POST', '/api/index.php/pdc', (data) => {
             alertBox.classList.remove("d-none");
-            if (data.success) {
+            if (data && data.success) {
                 alertBox.classList.add("alert-success");
                 alertBox.innerText = "Point de charge créé avec succès !";
                 form.reset();
@@ -78,19 +89,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 addPaiementRow();
             } else {
                 alertBox.classList.add("alert-danger");
-                alertBox.innerText = "Erreur : " + (data.message || "Impossible de créer le PDC.");
+                alertBox.innerText = "Erreur : " + (data ? data.message : "Impossible de créer le PDC.");
             }
-        })
-        .catch(error => {
-            alertBox.classList.remove("d-none");
-            alertBox.classList.add("alert-danger");
-            alertBox.innerText = "Erreur réseau : " + error.message;
-        })
-        .finally(() => {
             btnSubmit.disabled = false;
             btnSubmit.innerHTML = "Créer le PDC";
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+        }, urlEncodedData);
     });
 });
 

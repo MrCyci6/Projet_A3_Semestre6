@@ -10,17 +10,6 @@ class Statistique {
             $stmtTotal = Database::preparedQuery($sqlTotal, [$id_station]);
             $stats['total_pdc'] = $stmtTotal ? (int)$stmtTotal->fetchColumn() : 0;
 
-            $sqlPrises = "SELECT 
-                            tp.denomination AS type_prise, 
-                            SUM(pos.nbr_type_prise) AS nbr_prises
-                          FROM pdc p
-                          INNER JOIN Possede pos ON p.id_pdc_itinerance = pos.id_pdc_itinerance
-                          INNER JOIN type_prise tp ON pos.id_type_prise = tp.id_type_prise
-                          WHERE p.id_station_itinerance = ?
-                          GROUP BY tp.id_type_prise, tp.denomination";
-            $stmtPrises = Database::preparedQuery($sqlPrises, [$id_station]);
-            $stats['repartition_prises'] = $stmtPrises ? $stmtPrises->fetchAll(PDO::FETCH_ASSOC) : [];
-
             $sqlPuis = "SELECT 
                             ROUND(AVG(puissance_nomiale), 2) AS puissance_moyenne_kw,
                             MAX(puissance_nomiale) AS puissance_max_kw

@@ -212,16 +212,20 @@ class Pdc {
                 [':puiss'=>$data['puissance'], ':grat'=>$data['gratuit'], ':res'=>$data['reservation'], ':rapide'=>$data['charge_rapide'], ':id'=>$data['id_pdc_itinerance']]
             );
 
-            Database::preparedQuery("DELETE FROM Possede WHERE id_pdc_itinerance=?", [$data['id_pdc_itinerance']]);
-            foreach ($data['prises'] as $prise) {
-                Database::preparedQuery("INSERT INTO Possede (id_pdc_itinerance, id_type_prise, nbr_type_prise) VALUES (?, ?, ?)", 
-                [$data['id_pdc_itinerance'], $prise['id_type_prise'], $prise['nbr']]);
+            if (isset($data['prises']) && is_array($data['prises'])) {
+                Database::preparedQuery("DELETE FROM Possede WHERE id_pdc_itinerance=?", [$data['id_pdc_itinerance']]);
+                foreach ($data['prises'] as $prise) {
+                    Database::preparedQuery("INSERT INTO Possede (id_pdc_itinerance, id_type_prise, nbr_type_prise) VALUES (?, ?, ?)", 
+                    [$data['id_pdc_itinerance'], $prise['id_type_prise'], $prise['nbr']]);
+                }
             }
 
-            Database::preparedQuery("DELETE FROM Avoir WHERE id_pdc_itinerance=?", [$data['id_pdc_itinerance']]);
-            foreach ($data['paiements'] as $paie) {
-                Database::preparedQuery("INSERT INTO Avoir (id_pdc_itinerance, id_type_paiement, nbr_type_paiement) VALUES (?, ?, ?)", 
-                [$data['id_pdc_itinerance'], $paie['id_type_paiement'], $paie['nbr']]);
+            if (isset($data['paiements']) && is_array($data['paiements'])) {
+                Database::preparedQuery("DELETE FROM Avoir WHERE id_pdc_itinerance=?", [$data['id_pdc_itinerance']]);
+                foreach ($data['paiements'] as $paie) {
+                    Database::preparedQuery("INSERT INTO Avoir (id_pdc_itinerance, id_type_paiement, nbr_type_paiement) VALUES (?, ?, ?)", 
+                    [$data['id_pdc_itinerance'], $paie['id_type_paiement'], $paie['nbr']]);
+                }
             }
 
             $conn->commit();

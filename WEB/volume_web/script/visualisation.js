@@ -106,6 +106,12 @@ function loadTableData() {
                     <td>${pdc.reservation == 1 ? 'Oui' : 'Non'}</td>
                     <td>${pdc.enseigne_nom || 'N/A'}</td>
                     <td>${pdc.operateur_nom || 'N/A'}</td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-warning text-dark fw-bold btn-edit-pdc" data-id="${pdc.id_pdc_itinerance}" data-puissance="${pdc.puissance_nomiale || pdc.puissance_nominale || ''}" data-gratuit="${pdc.gratuit}" data-res="${pdc.reservation}" data-rapide="${pdc.charge_rapide}">Modifier</button>
+                            <button class="btn btn-sm btn-danger fw-bold btn-delete-pdc" data-id="${pdc.id_pdc_itinerance}">Supprimer</button>
+                        </div>
+                    </td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -415,15 +421,13 @@ if (btnRunClustering) {
         btnRunClustering.innerHTML = "Analyse K-Means en cours...";
         
         ajaxRequest('GET', "/api/index.php/cluster", (result) => {
-            if (result.success && result.images) {
+            if (result.success && result.image) {
                 const resultsDiv = document.getElementById("cluster-analysis-results");
-                const imgMetrics = document.getElementById("img-cluster-metrics");
                 const imgMap = document.getElementById("img-cluster-map");
                 
-                if (resultsDiv && imgMetrics && imgMap) {
+                if (resultsDiv && imgMap) {
                     const t = new Date().getTime();
-                    imgMetrics.src = `${result.images.metriques}?t=${t}`;
-                    imgMap.src = `${result.images.carte}?t=${t}`;
+                    imgMap.src = `${result.image}?t=${t}`;
                     
                     resultsDiv.classList.remove("d-none");
                 }
@@ -441,3 +445,74 @@ if (btnRunClustering) {
         });
     });
 }
+
+document.addEventListener("click", (event) => {
+    if (event.target && event.target.classList.contains("btn-delete-pdc")) {
+        const id = event.target.getAttribute("data-id");
+        if (confirm("Voulez-vous vraiment supprimer ce PDC ?")) {
+            ajaxRequest('DELETE', `/api/index.php/pdc?id=${encodeURIComponent(id)}`, (result) => {
+                if (result && result.success) {
+                    alert("PDC supprimé avec succès !");
+                    loadTableData();
+                } else {
+                    alert("Erreur lors de la suppression : " + (result ? result.message : "Erreur inconnue"));
+                }
+            });
+        }
+    }
+
+    if (event.target && event.target.classList.contains("btn-edit-pdc")) {
+        const id = event.target.getAttribute("data-id");
+        document.getElementById("edit_id_pdc").value = id;
+        document.getElementById("edit_puissance").value = event.target.getAttribute("data-puissance");
+        document.getElementById("edit_gratuit").checked = (event.target.getAttribute("data-gratuit") == "1");
+        document.getElementById("edit_reservation").checked = (event.target.getAttribute("data-res") == "1");
+        document.getElementById("edit_rapide").checked = (event.target.getAttribute("data-rapide") == "1");
+        
+        const alertBox = document.getElementById("edit-alert");
+        if (alertBox) alertBox.classList.add("d-none");
+        
+        const modal = new bootstrap.Modal(document.getElementById('modalEditPdc'));
+        modal.show();
+    }
+});
+
+document.addEventListener("submit", (event) => {
+    if (event.target && event.target.id === "form-edit-pdc") {
+        event.preventDefault();
+        const id = document.getElementById("edit_id_pdc").value;
+        const btnSubmit = document.getElementById("btn-submit-edit");
+        const alertBox = document.getElementById("edit-alert");
+        
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = "Enregistrement...";
+        if (alertBox) alertBox.classList.add("d-none");
+        
+        const params = new URLSearchParams();
+        params.append("puissance_nomiale", document.getElementById("edit_puissance").value);
+        params.append("gratuit", document.getElementById("edit_gratuit").checked ? 1 : 0);
+        params.append("reservation", document.getElementById("edit_reservation").checked ? 1 : 0);
+        params.append("charge_rapide", document.getElementById("edit_rapide").checked ? 1 : 0);
+        
+        ajaxRequest('PUT', `/api/index.php/pdc?id=${encodeURIComponent(id)}`, (result) => {
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = "Enregistrer";
+            
+            if (result && result.success) {
+                const modalEl = document.getElementById('modalEditPdc');
+                const modal = bootstrap.Modal.getInstance(modalEl);
+                modal.hide();
+                alert("PDC modifié avec succès !");
+                loadTableData();
+            } else {
+                if (alertBox) {
+                    alertBox.classList.remove("d-none", "alert-success");
+                    alertBox.classList.add("alert-danger");
+                    alertBox.innerText = "Erreur : " + (result ? result.message : "Impossible de modifier.");
+                } else {
+                    alert("Erreur lors de la modification.");
+                }
+            }
+        }, params.toString());
+    }
+});

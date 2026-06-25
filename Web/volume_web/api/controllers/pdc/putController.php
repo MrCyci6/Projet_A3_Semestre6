@@ -16,8 +16,8 @@
         'gratuit'           => (int)    $_PUT['gratuit'],
         'reservation'       => (int)    $_PUT['reservation'],
         'charge_rapide'     => (int)    $_PUT['charge_rapide'],
-        'prises'            => isset($_PUT['prises']) ? json_decode($_PUT['prises'], true) : [],
-        'paiements'         => isset($_PUT['paiements']) ? json_decode($_PUT['paiements'], true) : []
+        'prises'            => isset($_PUT['prises']) ? json_decode($_PUT['prises'], true) : null,
+        'paiements'         => isset($_PUT['paiements']) ? json_decode($_PUT['paiements'], true) : null
     ];
 
     if (!Pdc::update($data)) {

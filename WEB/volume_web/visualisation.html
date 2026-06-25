@@ -125,6 +125,7 @@
                                         <th>Reservation</th>
                                         <th>Enseigne</th>
                                         <th>Operateur</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="station-table-body">
@@ -195,18 +196,12 @@
                     
                     <!-- Zone des graphiques générés -->
                     <div id="cluster-analysis-results" class="d-none mt-4 p-3 bg-light rounded border">
-                        <h4 class="h5 text-success fw-bold mb-3">Graphiques K-Means Générés</h4>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <div class="card border-0 shadow-sm">
-                                    <div class="card-header bg-white border-bottom-0 py-2 fw-bold text-muted small">Évaluation des métriques (Elbow, Silhouette...)</div>
-                                    <img id="img-cluster-metrics" src="" alt="Métriques K-Means" class="img-fluid rounded-bottom">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+                        <h4 class="h5 text-success fw-bold mb-3">Carte K-Means Générée</h4>
+                        <div class="row g-3 justify-content-center">
+                            <div class="col-md-10">
                                 <div class="card border-0 shadow-sm">
                                     <div class="card-header bg-white border-bottom-0 py-2 fw-bold text-muted small">Carte de répartition géographique</div>
-                                    <img id="img-cluster-map" src="" alt="Carte K-Means" class="img-fluid rounded-bottom">
+                                    <img id="img-cluster-map" src="" alt="Carte K-Means" class="img-fluid rounded-bottom w-100">
                                 </div>
                             </div>
                         </div>
@@ -560,6 +555,41 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit PDC -->
+    <div class="modal fade" id="modalEditPdc" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title">Modifier le Point de Charge</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-edit-pdc">
+                        <input type="hidden" id="edit_id_pdc">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Puissance Nominale (kW)</label>
+                            <input type="number" step="0.1" id="edit_puissance" class="form-control" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="edit_gratuit">
+                            <label class="form-check-label">Gratuit</label>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="edit_reservation">
+                            <label class="form-check-label">Réservation possible</label>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="edit_rapide">
+                            <label class="form-check-label">Charge rapide</label>
+                        </div>
+                        <div class="alert d-none mt-2" id="edit-alert"></div>
+                        <button type="submit" id="btn-submit-edit" class="btn btn-warning w-100 fw-bold">Enregistrer</button>
+                    </form>
                 </div>
             </div>
         </div>
