@@ -21,8 +21,8 @@
         exit();
     }
 
-    function sendError() {
-        sendData("{\"success\": false, \"message\": \"Internal Server Error\"}", 500);
+    function sendError($message = "Internal Server Error", $code = 500) {
+        sendData(json_encode(["success" => false, "message" => $message]), $code);
         exit();
     }
 

@@ -61,6 +61,10 @@ class Pdc {
                 $conditions[] = "s.id_operateur = :operateur";
                 $params[':operateur'] = $filters['id_operateur'];
             }
+            if (isset($filters['id_departement']) && $filters['id_departement'] !== null) {
+                $conditions[] = "d.id_departement = :departement";
+                $params[':departement'] = $filters['id_departement'];
+            }
             if ($filters['charge_rapide'] !== null) {
                 $conditions[] = "p.charge_rapide = :rapide";
                 $params[':rapide'] = $filters['charge_rapide'];
@@ -212,6 +216,12 @@ class Pdc {
             foreach ($data['prises'] as $prise) {
                 Database::preparedQuery("INSERT INTO Possede (id_pdc_itinerance, id_type_prise, nbr_type_prise) VALUES (?, ?, ?)", 
                 [$data['id_pdc_itinerance'], $prise['id_type_prise'], $prise['nbr']]);
+            }
+
+            Database::preparedQuery("DELETE FROM Avoir WHERE id_pdc_itinerance=?", [$data['id_pdc_itinerance']]);
+            foreach ($data['paiements'] as $paie) {
+                Database::preparedQuery("INSERT INTO Avoir (id_pdc_itinerance, id_type_paiement, nbr_type_paiement) VALUES (?, ?, ?)", 
+                [$data['id_pdc_itinerance'], $paie['id_type_paiement'], $paie['nbr']]);
             }
 
             $conn->commit();

@@ -44,6 +44,10 @@ class Station {
                 $conditions[] = "s.id_operateur = :operateur";
                 $params[':operateur'] = $filters['id_operateur'];
             }
+            if (isset($filters['id_departement']) && $filters['id_departement'] !== null) {
+                $conditions[] = "d.id_departement = :departement";
+                $params[':departement'] = $filters['id_departement'];
+            }
 
             if (!empty($conditions)) {
                 $sql .= " WHERE " . implode(" AND ", $conditions);

@@ -3,6 +3,8 @@
     require_once "./models/Database.php";
     require_once "./models/Pdc.php";
     require_once "./models/Station.php";
+    require_once "./models/Departement.php";
+    require_once "./models/Statistique.php";
     require_once "./utils.php";
 
     if(!Database::getConnection()) {
@@ -19,7 +21,9 @@
         "pdc" => "controllers/pdc/".$requestMethod."Controller.php",
         "station" => "controllers/station/".$requestMethod."Controller.php",
         "cluster" => "controllers/cluster/".$requestMethod."Controller.php",
-        "prediction" => "controllers/prediction/".$requestMethod."Controller.php"
+        "prediction" => "controllers/prediction/".$requestMethod."Controller.php",
+        "departement" => "controllers/departement/".$requestMethod."Controller.php",
+        "statistique" => "controllers/statistique/".$requestMethod."Controller.php"
     ];
     
     if(isset($routes[$ressource])) {

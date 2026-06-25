@@ -17,13 +17,11 @@
         $lng_min = (float) $_GET['lng_min'];
         $lng_max = (float) $_GET['lng_max'];
 
-        $ZOOM_THRESHOLD = 10;
+        $ZOOM_THRESHOLD = 6;
 
-        if ($zoom < $ZOOM_THRESHOLD) {
-            $data = Station::getByCluster($lat_min, $lat_max, $lng_min, $lng_max);
-        } else {
-            $data = Station::getByBoundingBox($lat_min, $lat_max, $lng_min, $lng_max);
-        }
+
+        $data = Station::getByBoundingBox($lat_min, $lat_max, $lng_min, $lng_max);
+        
 
         if(!is_array($data) && !$data) {
             sendError();
@@ -41,6 +39,7 @@
         'ouvert_24_7' => isset($_GET['h24']) ? (int) $_GET['h24'] : null,
         'id_enseigne' => isset($_GET['enseigne']) ? (int) $_GET['enseigne'] : null,
         'id_operateur' => isset($_GET['operateur']) ? (int) $_GET['operateur'] : null,
+        'id_departement' => isset($_GET['departement']) ? (string) $_GET['departement'] : null,
     ];
 
     $data = Station::search($query, $filters, $page, $rows);

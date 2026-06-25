@@ -1,8 +1,8 @@
 <?php
-    $output_dir = "/var/www/html/scripts/outputs";
-    $script_path = "/var/www/html/scripts/clustering.py";
+    $output_dir = "/var/www/html/outputs";
+    $script_path = "/var/www/scripts/clustering.py";
 
-    shell_exec("python3 $script_path 2>&1");
+    shell_exec("cd /var/www/html && python3 $script_path 2>&1");
 
     $img1 = "/outputs/metriques_clustering.png";
     $img2 = "/outputs/carte_clustering.png";

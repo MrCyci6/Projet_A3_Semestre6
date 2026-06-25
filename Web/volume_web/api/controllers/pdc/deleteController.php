@@ -7,6 +7,6 @@
     if (!Pdc::delete($_GET['id']))
         sendError();
     
-    sendData("{\"success\": false, \"message\": \"PDC deleted\"}", 200);
+    sendData("{\"success\": true, \"message\": \"PDC deleted\"}", 200);
 
 ?>

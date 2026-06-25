@@ -26,6 +26,7 @@
         'restriction_gabarit' => isset($_GET['gabarit']) ? $_GET['gabarit'] : null,
         'id_enseigne' => isset($_GET['enseigne']) ? (int) $_GET['enseigne'] : null,
         'id_operateur' => isset($_GET['operateur']) ? (int) $_GET['operateur'] : null,
+        'id_departement' => isset($_GET['departement']) ? (string) $_GET['departement'] : null,
     ];
 
     $data = Pdc::search($query, $filters, $page, $rows);
