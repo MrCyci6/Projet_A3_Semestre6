@@ -1,3 +1,5 @@
+// VARIABLES GLOBALES ET ÉTAT
+
 let map;
 let mapCluster;
 let selectedStationId = null;
@@ -17,6 +19,12 @@ let tableState = {
 let filterTimeout = null;
 
 
+
+//  GESTION DES CARTES INTERACTIVES (Leaflet)
+
+/**
+ * Initialise les cartes Leaflet principale et cluster
+ */
 function initMap() {
     if (document.getElementById('map') && !map) {
         map = L.map('map').setView([46.603354, 1.888334], 6);
@@ -40,6 +48,11 @@ function initMap() {
     }
 }
 
+/**
+ * Charge les données des stations depuis l'API et place les marqueurs sur la carte
+ * @param {Object} targetMap - L'instance de la carte Leaflet cible
+ * @param {Array} markersArray - Le tableau stockant les marqueurs pour la carte cible
+ */
 function loadMapData(targetMap, markersArray) {
     if (!targetMap) return;
 
@@ -59,7 +72,7 @@ function loadMapData(targetMap, markersArray) {
             result.data.forEach(item => {
                 const lat = item.latitude || item.lat;
                 const lng = item.longitude || item.lng;
-                
+
                 let popupText = "";
                 if (item.count) {
                     popupText = `<b>Zone de regroupement</b><br>${item.count} stations ici`;
@@ -77,6 +90,11 @@ function loadMapData(targetMap, markersArray) {
     });
 }
 
+//  GESTION DU TABLEAU DE DONNÉES ET FILTRES
+
+/**
+ * Charge les Points de Charge (PDC) pour le tableau en fonction des filtres et de la pagination
+ */
 function loadTableData() {
     const params = new URLSearchParams();
     params.append("page", tableState.page);
@@ -93,7 +111,7 @@ function loadTableData() {
             const tbody = document.getElementById('station-table-body');
             if (!tbody) return;
             tbody.innerHTML = ''; // Nettoyer
-            
+
             result.data.forEach(pdc => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -128,6 +146,10 @@ function loadTableData() {
     });
 }
 
+/**
+ * Déclenche un rechargement du tableau avec un délai (debounce)
+ * pour éviter de surcharger le serveur lors de la frappe
+ */
 function triggerTableReload() {
     clearTimeout(filterTimeout);
     filterTimeout = setTimeout(() => {
@@ -136,12 +158,15 @@ function triggerTableReload() {
     }, 300);
 }
 
+/**
+ * Charge la liste des départements pour remplir le menu déroulant des filtres
+ */
 function loadDepartements() {
     ajaxRequest('GET', "/api/index.php/departement", (result) => {
         if (result.success && result.data) {
             const select = document.getElementById("filter-departement");
             if (!select) return;
-            
+
             result.data.forEach(dep => {
                 const opt = document.createElement("option");
                 opt.value = dep.id_departement;
@@ -152,6 +177,8 @@ function loadDepartements() {
     });
 }
 
+// ÉCOUTEURS D'ÉVÉNEMENTS INITIAUX
+// Exécuté au chargement complet de la page
 document.addEventListener("DOMContentLoaded", () => {
     initMap();
 
@@ -225,6 +252,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+// INTERACTION UTILISATEUR & FORMULAIRES DE PRÉDICTION
+// Corrige l'affichage de la carte Leaflet lorsqu'elle est dans une modale
 document.addEventListener('shown.bs.modal', function (event) {
     if (event.target.id === 'modalCluster') {
         if (mapCluster) {
@@ -234,6 +263,7 @@ document.addEventListener('shown.bs.modal', function (event) {
     }
 });
 
+// Sélection d'une station dans le tableau via les boutons radio
 document.addEventListener("change", (event) => {
     if (event.target && event.target.name === "stationSelection") {
         selectedStationId = event.target.value;
@@ -243,49 +273,50 @@ document.addEventListener("change", (event) => {
     }
 });
 
+// Pré-remplissage des formulaires de prédiction avec la station sélectionnée
 document.addEventListener("click", (event) => {
     if (event.target && event.target.classList.contains("btn-fill-station")) {
         if (!selectedStationId) return;
-        
+
         event.target.innerHTML = "Chargement...";
         const url = `/api/index.php/pdc?id=${selectedStationId}`;
         ajaxRequest('GET', url, (result) => {
             if (result.success && result.data) {
                 const station = result.data;
-                
+
                 const formType = document.getElementById("form-predict-type");
                 if (formType && formType.contains(event.target)) {
-                    formType.querySelector("[name='puissance']").value = parseFloat(station.puissance_nomiale) || parseFloat(station.puissance_nominale) || 22.0; 
+                    formType.querySelector("[name='puissance']").value = parseFloat(station.puissance_nomiale) || parseFloat(station.puissance_nominale) || 22.0;
                     formType.querySelector("[name='nbre_pdc']").value = parseInt(station.nbr_pdc) || 1;
-                    
+
                     formType.querySelector("[name='acces']").value = station.condition_access_nom || (station.ouvert_24_7 == 1 ? "Accès libre" : "Accès réservé");
                     formType.querySelector("[name='pmr']").value = station.accessibilite_pmr_nom || "Inconnu";
                     formType.querySelector("[name='raccord']").value = station.raccordement_nom || "Direct";
-                    
+
                     formType.querySelector("[name='operateur']").value = station.operateur_nom || "Autre";
                     formType.querySelector("[name='commune']").value = station.code_postal ? station.code_postal.substring(0, 5) : "00000";
-                    
+
                     formType.querySelector("#type-h24").checked = (station.ouvert_24_7 == 1);
                     formType.querySelector("#type-cb").checked = false; // Note: You would need to join the payment types if you want to set this accurately.
                     formType.querySelector("#type-acte").checked = true;
                     formType.querySelector("#type-gratuit").checked = (station.gratuit == 1);
                     formType.querySelector("#type-rapide").checked = (station.charge_rapide == 1);
                 }
-                
+
                 const formPuis = document.getElementById("form-predict-puissance");
                 if (formPuis && formPuis.contains(event.target)) {
                     formPuis.querySelector("[name='nbre_pdc']").value = parseInt(station.nbr_pdc) || 1;
                     formPuis.querySelector("[name='lat']").value = parseFloat(station.latitude) || 49.24;
                     formPuis.querySelector("[name='long']").value = parseFloat(station.longitude) || 6.13;
-                    
+
                     formPuis.querySelector("[name='acces']").value = station.condition_access_nom || (station.ouvert_24_7 == 1 ? "Accès libre" : "Accès réservé");
                     formPuis.querySelector("[name='implantation']").value = station.implantation_nom || "Parking public";
-                    
+
                     formPuis.querySelector("#puis-h24").checked = (station.ouvert_24_7 == 1);
                     formPuis.querySelector("#puis-gratuit").checked = (station.gratuit == 1);
                     formPuis.querySelector("#puis-rapide").checked = (station.charge_rapide == 1);
                 }
-                
+
                 event.target.innerHTML = "Prérempli avec succès !";
                 setTimeout(() => {
                     event.target.innerHTML = "Préremplir avec la station sélectionnée";
@@ -295,27 +326,28 @@ document.addEventListener("click", (event) => {
     }
 });
 
+// Soumission du formulaire de prédiction du type de station (Implantation)
 document.addEventListener("submit", (event) => {
     if (event.target && event.target.id === "form-predict-type") {
         event.preventDefault();
         const form = event.target;
         const submitBtn = form.querySelector("button[type='submit']");
         const originalText = submitBtn.innerHTML;
-        
+
         submitBtn.disabled = true;
         submitBtn.innerHTML = "Calcul en cours...";
-        
+
         const params = new URLSearchParams();
         params.append("puissance", form.querySelector("[name='puissance']").value);
         params.append("nbre_pdc", form.querySelector("[name='nbre_pdc']").value);
         params.append("nb_types", form.querySelector("[name='nb_types']").value);
-        
+
         params.append("acces", form.querySelector("[name='acces']").value);
         params.append("raccord", form.querySelector("[name='raccord']").value);
         params.append("pmr", form.querySelector("[name='pmr']").value);
         params.append("operateur", form.querySelector("[name='operateur']").value);
         params.append("commune", form.querySelector("[name='commune']").value);
-        
+
         params.append("rapide", form.querySelector("[name='rapide']").checked ? 1 : 0);
         params.append("h24", form.querySelector("[name='h24']").checked ? 1 : 0);
         params.append("cb", form.querySelector("[name='cb']").checked ? 1 : 0);
@@ -325,23 +357,23 @@ document.addEventListener("submit", (event) => {
         params.append("res", form.querySelector("[name='res']").checked ? 1 : 0);
         params.append("cable_t2", form.querySelector("[name='cable_t2']").checked ? 1 : 0);
         params.append("2roues", form.querySelector("[name='2roues']").checked ? 1 : 0);
-        
+
         params.append("ef", form.querySelector("[name='ef']").checked ? 1 : 0);
         params.append("t2", form.querySelector("[name='t2']").checked ? 1 : 0);
         params.append("ccs", form.querySelector("[name='ccs']").checked ? 1 : 0);
         params.append("chademo", form.querySelector("[name='chademo']").checked ? 1 : 0);
         params.append("autre_prise", form.querySelector("[name='autre_prise']").checked ? 1 : 0);
-        
+
         ajaxRequest('GET', `/api/index.php/prediction/implantation?${params.toString()}`, (result) => {
             const resultDiv = document.getElementById("result-predict-type");
             const resultText = document.getElementById("result-type-content");
             const resultProb = document.getElementById("result-type-prob");
-            
+
             if (result.success && result.data) {
                 resultDiv.classList.remove("d-none");
-                
+
                 resultText.innerHTML = `<strong>Type prédit :</strong> <span class="badge bg-success p-2 fs-6 mt-1">${result.data.prediction}</span>`;
-                
+
                 resultProb.innerHTML = "";
                 if (result.data.probabilites) {
                     Object.entries(result.data.probabilites).forEach(([classe, prob]) => {
@@ -366,43 +398,44 @@ document.addEventListener("submit", (event) => {
     }
 });
 
+// Soumission du formulaire de prédiction de la puissance nominale
 document.addEventListener("submit", (event) => {
     if (event.target && event.target.id === "form-predict-puissance") {
         event.preventDefault();
         const form = event.target;
         const submitBtn = form.querySelector("button[type='submit']");
         const originalText = submitBtn.innerHTML;
-        
+
         submitBtn.disabled = true;
         submitBtn.innerHTML = "Calcul en cours...";
-        
+
         const params = new URLSearchParams();
         params.append("nbre_pdc", form.querySelector("[name='nbre_pdc']").value);
         params.append("nb_types_prise", form.querySelector("[name='nb_types_prise']").value);
         params.append("lat", form.querySelector("[name='lat']").value);
         params.append("long", form.querySelector("[name='long']").value);
-        
+
         params.append("implantation", form.querySelector("[name='implantation']").value);
         params.append("acces", form.querySelector("[name='acces']").value);
-        
+
         params.append("charge_rapide", form.querySelector("[name='charge_rapide']").checked ? 1 : 0);
         params.append("h24", form.querySelector("[name='ouvert_24_7']").checked ? 1 : 0);
         params.append("gratuit", form.querySelector("[name='gratuit']").checked ? 1 : 0);
         params.append("cb", form.querySelector("[name='cb']").checked ? 1 : 0);
-        
+
         params.append("combo", form.querySelector("[name='combo']").checked ? 1 : 0);
         params.append("type2", form.querySelector("[name='type2']").checked ? 1 : 0);
         params.append("type_ef", form.querySelector("[name='type_ef']").checked ? 1 : 0);
         params.append("chademo", form.querySelector("[name='chademo']").checked ? 1 : 0);
         params.append("autre", form.querySelector("[name='autre']").checked ? 1 : 0);
-        
+
         ajaxRequest('GET', `/api/index.php/prediction/puissance_nominale?${params.toString()}`, (result) => {
             const resultDiv = document.getElementById("result-predict-puissance");
             const resultText = document.getElementById("result-puissance-content");
-            
+
             if (result.success && result.data) {
                 resultDiv.classList.remove("d-none");
-                
+
                 resultText.innerHTML = `<span class="badge bg-warning text-dark p-3 fs-5">${result.data}</span>`;
             } else {
                 alert("La prédiction de puissance a échoué.");
@@ -413,22 +446,24 @@ document.addEventListener("submit", (event) => {
     }
 });
 
+// ANALYSE K-MEANS (CLUSTERING)
+
 const btnRunClustering = document.getElementById("btn-run-clustering");
 if (btnRunClustering) {
     btnRunClustering.addEventListener("click", () => {
         const originalText = btnRunClustering.innerHTML;
         btnRunClustering.disabled = true;
         btnRunClustering.innerHTML = "Analyse K-Means en cours...";
-        
+
         ajaxRequest('GET', "/api/index.php/cluster", (result) => {
             if (result.success && result.image) {
                 const resultsDiv = document.getElementById("cluster-analysis-results");
                 const imgMap = document.getElementById("img-cluster-map");
-                
+
                 if (resultsDiv && imgMap) {
                     const t = new Date().getTime();
                     imgMap.src = `${result.image}?t=${t}`;
-                    
+
                     resultsDiv.classList.remove("d-none");
                 }
                 btnRunClustering.innerHTML = "Analyse terminée !";
@@ -446,6 +481,8 @@ if (btnRunClustering) {
     });
 }
 
+// ACTIONS (MODIFIER / SUPPRIMER)
+// Gestion des clics sur les boutons Supprimer et Modifier du tableau
 document.addEventListener("click", (event) => {
     if (event.target && event.target.classList.contains("btn-delete-pdc")) {
         const id = event.target.getAttribute("data-id");
@@ -468,36 +505,37 @@ document.addEventListener("click", (event) => {
         document.getElementById("edit_gratuit").checked = (event.target.getAttribute("data-gratuit") == "1");
         document.getElementById("edit_reservation").checked = (event.target.getAttribute("data-res") == "1");
         document.getElementById("edit_rapide").checked = (event.target.getAttribute("data-rapide") == "1");
-        
+
         const alertBox = document.getElementById("edit-alert");
         if (alertBox) alertBox.classList.add("d-none");
-        
+
         const modal = new bootstrap.Modal(document.getElementById('modalEditPdc'));
         modal.show();
     }
 });
 
+// Soumission du formulaire de modification d'un PDC (Requête PUT)
 document.addEventListener("submit", (event) => {
     if (event.target && event.target.id === "form-edit-pdc") {
         event.preventDefault();
         const id = document.getElementById("edit_id_pdc").value;
         const btnSubmit = document.getElementById("btn-submit-edit");
         const alertBox = document.getElementById("edit-alert");
-        
+
         btnSubmit.disabled = true;
         btnSubmit.innerHTML = "Enregistrement...";
         if (alertBox) alertBox.classList.add("d-none");
-        
+
         const params = new URLSearchParams();
         params.append("puissance_nomiale", document.getElementById("edit_puissance").value);
         params.append("gratuit", document.getElementById("edit_gratuit").checked ? 1 : 0);
         params.append("reservation", document.getElementById("edit_reservation").checked ? 1 : 0);
         params.append("charge_rapide", document.getElementById("edit_rapide").checked ? 1 : 0);
-        
+
         ajaxRequest('PUT', `/api/index.php/pdc?id=${encodeURIComponent(id)}`, (result) => {
             btnSubmit.disabled = false;
             btnSubmit.innerHTML = "Enregistrer";
-            
+
             if (result && result.success) {
                 const modalEl = document.getElementById('modalEditPdc');
                 const modal = bootstrap.Modal.getInstance(modalEl);

@@ -64,10 +64,11 @@
                             <div class="col-lg-3 col-md-6">
                                 <label class="form-label fw-bold small text-secondary mb-1">Recherche</label>
                                 <div class="input-group">
-                                    <input type="text" id="filter-query" class="form-control border-start-0" placeholder="Nom, adresse, CP...">
+                                    <input type="text" id="filter-query" class="form-control border-start-0"
+                                        placeholder="Nom, adresse, CP...">
                                 </div>
                             </div>
-                            
+
                             <!-- Filtre Département -->
                             <div class="col-lg-3 col-md-6">
                                 <label class="form-label fw-bold small text-secondary mb-1">Département</label>
@@ -75,7 +76,7 @@
                                     <option value="" selected>Tous les départements</option>
                                 </select>
                             </div>
-                            
+
                             <!-- Filtre 24/7 -->
                             <div class="col-lg-2 col-md-4">
                                 <label class="form-label fw-bold small text-secondary mb-1">Ouvert 24/7</label>
@@ -85,19 +86,19 @@
                                     <option value="0">Non</option>
                                 </select>
                             </div>
-                            
+
                             <!-- ID Enseigne -->
                             <div class="col-lg-1 col-md-4">
                                 <label class="form-label fw-bold small text-secondary mb-1">ID Enseigne</label>
                                 <input type="number" id="filter-enseigne" class="form-control" placeholder="ID">
                             </div>
-                            
+
                             <!-- ID Opérateur -->
                             <div class="col-lg-1 col-md-4">
                                 <label class="form-label fw-bold small text-secondary mb-1">ID Opérateur</label>
                                 <input type="number" id="filter-operateur" class="form-control" placeholder="ID">
                             </div>
-                            
+
                             <!-- Lignes par page -->
                             <div class="col-lg-2 col-md-4">
                                 <label class="form-label fw-bold small text-secondary mb-1">Lignes</label>
@@ -137,17 +138,21 @@
                         <!-- Pagination et Actions -->
                         <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mt-auto">
                             <div class="d-flex align-items-center gap-2">
-                                <button type="button" id="btn-page-prev" class="btn btn-sm btn-outline-secondary px-3" disabled>« Précédent</button>
-                                <span class="text-muted small">Page <span id="current-page-num" class="fw-bold text-dark">1</span></span>
-                                <button type="button" id="btn-page-next" class="btn btn-sm btn-outline-secondary px-3">Suivant »</button>
+                                <button type="button" id="btn-page-prev" class="btn btn-sm btn-outline-secondary px-3"
+                                    disabled>« Précédent</button>
+                                <span class="text-muted small">Page <span id="current-page-num"
+                                        class="fw-bold text-dark">1</span></span>
+                                <button type="button" id="btn-page-next"
+                                    class="btn btn-sm btn-outline-secondary px-3">Suivant »</button>
                             </div>
                             <div class="d-flex flex-wrap gap-3 justify-content-center">
                                 <button type="button" class="btn btn-outline-primary px-4" data-bs-toggle="modal"
                                     data-bs-target="#modalCluster">Prédire les clusters</button>
                                 <button type="button" class="btn btn-outline-success px-4" data-bs-toggle="modal"
                                     data-bs-target="#modalType">Prédire l'implantation</button>
-                                <button type="button" class="btn btn-outline-warning text-dark px-4" data-bs-toggle="modal"
-                                    data-bs-target="#modalPuissance">Prédire la puissance</button>
+                                <button type="button" class="btn btn-outline-warning text-dark px-4"
+                                    data-bs-toggle="modal" data-bs-target="#modalPuissance">Prédire la
+                                    puissance</button>
                             </div>
                         </div>
                     </div>
@@ -186,22 +191,27 @@
                 </div>
                 <div class="modal-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h3 style="font-family:'Inika',serif; font-size:20px; font-weight:bold; margin:0;">Visualisation de la prédiction de clusters</h3>
-                        <button type="button" id="btn-run-clustering" class="btn btn-sm btn-success rounded-pill px-3 py-2 fw-bold shadow-sm">
+                        <h3 style="font-family:'Inika',serif; font-size:20px; font-weight:bold; margin:0;">Visualisation
+                            de la prédiction de clusters</h3>
+                        <button type="button" id="btn-run-clustering"
+                            class="btn btn-sm btn-success rounded-pill px-3 py-2 fw-bold shadow-sm">
                             Générer l'analyse K-Means (Script Python)
                         </button>
                     </div>
-                    <p style="font-family:'Inika',serif; font-size:16px;">Visualisation cartographique interactive des regroupements de points de charge.</p>
+                    <p style="font-family:'Inika',serif; font-size:16px;">Visualisation cartographique interactive des
+                        regroupements de points de charge.</p>
                     <div id="map-cluster" style="height:400px; width:100%;" class="mb-4"></div>
-                    
+
                     <!-- Zone des graphiques générés -->
                     <div id="cluster-analysis-results" class="d-none mt-4 p-3 bg-light rounded border">
                         <h4 class="h5 text-success fw-bold mb-3">Carte K-Means Générée</h4>
                         <div class="row g-3 justify-content-center">
                             <div class="col-md-10">
                                 <div class="card border-0 shadow-sm">
-                                    <div class="card-header bg-white border-bottom-0 py-2 fw-bold text-muted small">Carte de répartition géographique</div>
-                                    <img id="img-cluster-map" src="" alt="Carte K-Means" class="img-fluid rounded-bottom w-100">
+                                    <div class="card-header bg-white border-bottom-0 py-2 fw-bold text-muted small">
+                                        Carte de répartition géographique</div>
+                                    <img id="img-cluster-map" src="" alt="Carte K-Means"
+                                        class="img-fluid rounded-bottom w-100">
                                 </div>
                             </div>
                         </div>
@@ -225,8 +235,9 @@
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p style="font-family:'Inika',serif; font-size:16px;">Prédiction de type d'implantation de charge</p>
-                    
+                    <p style="font-family:'Inika',serif; font-size:16px;">Prédiction de type d'implantation de charge
+                    </p>
+
                     <form id="form-predict-type">
                         <div class="row g-3">
                             <div class="col-12 d-flex justify-content-between align-items-center mb-2">
@@ -235,7 +246,7 @@
                                     Préremplir avec la station sélectionnée
                                 </button>
                             </div>
-                            
+
                             <!-- Section 1: Technique -->
                             <div class="col-md-4">
                                 <label class="form-label fw-bold small mb-1">Puissance Nominale (kW)</label>
@@ -289,13 +300,15 @@
                                 <div class="row g-2">
                                     <div class="col-6 col-md-4">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="rapide" id="type-rapide">
+                                            <input class="form-check-input" type="checkbox" name="rapide"
+                                                id="type-rapide">
                                             <label class="form-check-label" for="type-rapide">Charge Rapide</label>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-4">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="h24" id="type-h24" checked>
+                                            <input class="form-check-input" type="checkbox" name="h24" id="type-h24"
+                                                checked>
                                             <label class="form-check-label" for="type-h24">Ouvert 24/7</label>
                                         </div>
                                     </div>
@@ -313,13 +326,16 @@
                                     </div>
                                     <div class="col-6 col-md-4">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="autre_paiement" id="type-autre_paiement">
-                                            <label class="form-check-label" for="type-autre_paiement">Autre Paiement</label>
+                                            <input class="form-check-input" type="checkbox" name="autre_paiement"
+                                                id="type-autre_paiement">
+                                            <label class="form-check-label" for="type-autre_paiement">Autre
+                                                Paiement</label>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-4">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="gratuit" id="type-gratuit">
+                                            <input class="form-check-input" type="checkbox" name="gratuit"
+                                                id="type-gratuit">
                                             <label class="form-check-label" for="type-gratuit">Gratuit</label>
                                         </div>
                                     </div>
@@ -331,13 +347,15 @@
                                     </div>
                                     <div class="col-6 col-md-4">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="cable_t2" id="type-cable_t2">
+                                            <input class="form-check-input" type="checkbox" name="cable_t2"
+                                                id="type-cable_t2">
                                             <label class="form-check-label" for="type-cable_t2">Câble T2 attaché</label>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-4">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="2roues" id="type-2roues">
+                                            <input class="form-check-input" type="checkbox" name="2roues"
+                                                id="type-2roues">
                                             <label class="form-check-label" for="type-2roues">Deux Roues</label>
                                         </div>
                                     </div>
@@ -367,19 +385,21 @@
                                     </div>
                                     <div class="col-6 col-md-4">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="chademo" id="type-chademo">
+                                            <input class="form-check-input" type="checkbox" name="chademo"
+                                                id="type-chademo">
                                             <label class="form-check-label" for="type-chademo">Prise CHAdeMO</label>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-4">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="autre_prise" id="type-autre_prise">
+                                            <input class="form-check-input" type="checkbox" name="autre_prise"
+                                                id="type-autre_prise">
                                             <label class="form-check-label" for="type-autre_prise">Autre Prise</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="col-12 text-end mt-4">
                                 <button type="submit" class="btn btn-success px-5 py-2 fw-bold rounded-pill shadow-sm">
                                     Lancer la prédiction
@@ -414,14 +434,15 @@
                     <h5 class="modal-title d-flex align-items-center gap-3" id="modalPuissanceLabel"
                         style="font-family:'Krona One',sans-serif;">
                         <img src="images/puissance_nominale.png" alt="icône puissance" style="height:50px;">
-                        Prédiction du type d'implantation et de puissance
+                        Prédiction de puissance nominale du point de charge
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p style="font-family:'Inika',serif; font-size:16px;">Prédiction de la puissance nominale du point de charge</p>
-                    
+                    <p style="font-family:'Inika',serif; font-size:16px;">Prédiction de la puissance nominale du point
+                        de charge</p>
+
                     <form id="form-predict-puissance">
                         <div class="row g-3">
                             <div class="col-12 d-flex justify-content-between align-items-center mb-2">
@@ -430,7 +451,7 @@
                                     Préremplir avec la station sélectionnée
                                 </button>
                             </div>
-                            
+
                             <!-- Section 1: Technique -->
                             <div class="col-md-6">
                                 <label class="form-label fw-bold small mb-1">Nombre PDC</label>
@@ -453,7 +474,8 @@
                             <div class="col-md-6">
                                 <label class="form-label fw-bold small mb-1">Implantation</label>
                                 <select name="implantation" class="form-select">
-                                    <option value="Parking privé à usage public" selected>Parking privé à usage public</option>
+                                    <option value="Parking privé à usage public" selected>Parking privé à usage public
+                                    </option>
                                     <option value="Parking public">Parking public</option>
                                     <option value="Voirie">Voirie</option>
                                     <option value="Autre">Autre</option>
@@ -474,19 +496,22 @@
                                 <div class="row g-2">
                                     <div class="col-6 col-md-3">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="charge_rapide" id="puis-rapide" checked>
+                                            <input class="form-check-input" type="checkbox" name="charge_rapide"
+                                                id="puis-rapide" checked>
                                             <label class="form-check-label" for="puis-rapide">Charge Rapide</label>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="ouvert_24_7" id="puis-h24" checked>
+                                            <input class="form-check-input" type="checkbox" name="ouvert_24_7"
+                                                id="puis-h24" checked>
                                             <label class="form-check-label" for="puis-h24">Ouvert 24/7</label>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="gratuit" id="puis-gratuit">
+                                            <input class="form-check-input" type="checkbox" name="gratuit"
+                                                id="puis-gratuit">
                                             <label class="form-check-label" for="puis-gratuit">Gratuit</label>
                                         </div>
                                     </div>
@@ -504,39 +529,45 @@
                                 <div class="row g-2">
                                     <div class="col-6 col-md-4">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="combo" id="puis-combo" checked>
+                                            <input class="form-check-input" type="checkbox" name="combo" id="puis-combo"
+                                                checked>
                                             <label class="form-check-label" for="puis-combo">Combo CCS</label>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-4">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="type2" id="puis-type2">
+                                            <input class="form-check-input" type="checkbox" name="type2"
+                                                id="puis-type2">
                                             <label class="form-check-label" for="puis-type2">Prise Type 2</label>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-4">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="type_ef" id="puis-type_ef">
+                                            <input class="form-check-input" type="checkbox" name="type_ef"
+                                                id="puis-type_ef">
                                             <label class="form-check-label" for="puis-type_ef">Prise Type EF</label>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-4">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="chademo" id="puis-chademo">
+                                            <input class="form-check-input" type="checkbox" name="chademo"
+                                                id="puis-chademo">
                                             <label class="form-check-label" for="puis-chademo">Prise CHAdeMO</label>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-4">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="autre" id="puis-autre">
+                                            <input class="form-check-input" type="checkbox" name="autre"
+                                                id="puis-autre">
                                             <label class="form-check-label" for="puis-autre">Autre Prise</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="col-12 text-end mt-4">
-                                <button type="submit" class="btn btn-warning text-dark px-5 py-2 fw-bold rounded-pill shadow-sm">
+                                <button type="submit"
+                                    class="btn btn-warning text-dark px-5 py-2 fw-bold rounded-pill shadow-sm">
                                     Lancer la prédiction
                                 </button>
                             </div>
@@ -588,7 +619,8 @@
                             <label class="form-check-label">Charge rapide</label>
                         </div>
                         <div class="alert d-none mt-2" id="edit-alert"></div>
-                        <button type="submit" id="btn-submit-edit" class="btn btn-warning w-100 fw-bold">Enregistrer</button>
+                        <button type="submit" id="btn-submit-edit"
+                            class="btn btn-warning w-100 fw-bold">Enregistrer</button>
                     </form>
                 </div>
             </div>
