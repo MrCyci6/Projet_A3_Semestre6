@@ -4,8 +4,8 @@ import argparse
 
 def predire_puissance(nouvelle_borne_dict):
     try:
-        preprocessor = joblib.load("/var/www/scripts/models/02_preprocessor.pkl")
-        model = joblib.load("/var/www/scripts/models/03_best_model_rf.pkl")
+        preprocessor = joblib.load("/var/www/clenoi28/scripts/models/02_preprocessor.pkl")
+        model = joblib.load("/var/www/clenoi28/scripts/models/03_best_model_rf.pkl")
     except FileNotFoundError:
         return "Erreur : Les fichiers du modèle sont introuvables."
 

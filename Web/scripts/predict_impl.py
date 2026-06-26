@@ -10,10 +10,10 @@ warnings.filterwarnings("ignore", category=UserWarning, module='sklearn')
 
 # Nous chargeons le modèle et les encodeurs/scaler (cela doit être exécuté après avoir lancé train_model.py)
 try:
-    modele = joblib.load('/var/www/scripts/models/modele_final.pkl')
-    encoders = joblib.load('/var/www/scripts/models/encoders.pkl')
-    scaler = joblib.load('/var/www/scripts/models/scaler.pkl')
-    features = joblib.load('/var/www/scripts/models/features.pkl')
+    modele = joblib.load('/var/www/clenoi28/scripts/models/modele_final.pkl')
+    encoders = joblib.load('/var/www/clenoi28/scripts/models/encoders.pkl')
+    scaler = joblib.load('/var/www/clenoi28/scripts/models/scaler.pkl')
+    features = joblib.load('/var/www/clenoi28/scripts/models/features.pkl')
 except FileNotFoundError:
     print("Erreur : Fichiers du modèle introuvables. Veuillez d'abord exécuter train_model.py.")
     exit()

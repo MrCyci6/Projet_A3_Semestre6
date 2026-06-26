@@ -26,7 +26,8 @@
             $cmd_args[] = "--$key $val";
         }
 
-        $cmd = "python3 /var/www/scripts/predict_puis.py " . implode(" ", $cmd_args) . " 2>&1";
+        $scriptPath = '../scripts/predict_puis.py';
+        $cmd = "python3 " . escapeshellarg($scriptPath) . " " . implode(" ", $cmd_args);
 
         $output = shell_exec($cmd);
 
@@ -65,7 +66,8 @@
             $cmd_args[] = "--$key $val";
         }
 
-        $cmd = "python3 /var/www/scripts/predict_impl.py " . implode(" ", $cmd_args) . " 2>&1";
+        $scriptPath = '../scripts/predict_impl.py';
+        $cmd = "python3 " . escapeshellarg($scriptPath) . " " . implode(" ", $cmd_args);
 
         $json_output = shell_exec($cmd);
 
